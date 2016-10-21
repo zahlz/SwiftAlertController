@@ -1,6 +1,8 @@
 SwiftAlertController
 ====================
 
+(Inspired by EZAlertController (https://github.com/thellimist/EZAlertController))
+
 Nice and easy UIAlertController extensions
 
 - One line setup for alert controllers
