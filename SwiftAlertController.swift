@@ -29,55 +29,115 @@ import UIKit
 extension UIAlertController {
 
     /**
-     Create an alert style UIAlertController
+     Create an alert style `UIAlertController`
 
-     - parameter name: Title for the UIAlertController
-     - parameter message: Message to display
-     - parameter acceptMessage: Message in the accept button
-     - parameter handler: Handler for the button click
+     - parameter name: Title for the `UIAlertController`
+     - parameter message: Message to display (default: `nil`)
+     - parameter acceptMessage: Message in the accept button (default: "OK")
+     - parameter handler: Handler for the button click (default: `nil`)
 
-     - returns: An UIAlertController
+     - returns: An `UIAlertController`
 
      */
     class func alert(
-        name: String,
+        _ name: String,
         message: String? = nil,
         acceptMessage: String = "OK",
         handler: ((UIAlertAction) -> Void)? = nil
         ) -> UIAlertController {
 
-        return UIAlertController(title: name, message: message, preferredStyle: .alert)
-            .action(title: acceptMessage, style: .cancel, handler: handler)
+        return UIAlertController.alert(name, message: message, actions: [UIAlertAction(title: acceptMessage, style: .cancel, handler: handler)])
 
     }
 
     /**
-     Create an actionSheet style UIAlertController
+     Create an alert style `UIAlertController`
 
-     - parameter name: Title for the UIAlertController
-     - parameter message: Message to display
-     - parameter actions: Available actions
+     - parameter name: Title for the `UIAlertController`
+     - parameter message: Message to display (default: `nil`)
+     - parameter actions: Array with the `UIAlertAction`s
 
-     - returns UIAlertController
+     - returns: An `UIAlertController`
+
      */
-    class func sheet(
-        name: String,
+    class func alert(
+        _ name: String,
         message: String? = nil,
-        actions: [UIAlertAction]? = nil
+        actions: [UIAlertAction]
         ) -> UIAlertController {
 
-        let alertController =  UIAlertController(title: name, message: message, preferredStyle: .actionSheet)
+        let alertController =  UIAlertController(title: name, message: message, preferredStyle: .alert)
 
-        if let actions = actions {
-            actions.forEach(alertController.addAction)
-        }
+        actions.forEach(alertController.addAction)
 
         return alertController
 
     }
 
     /**
-     Adds an action to an UIAlertController and is chainable
+     Create an alert style `UIAlertController`
+
+     - parameter name: Title for the `UIAlertController`
+     - parameter message: Message to display (default: `nil`)
+     - parameter actionHandler: Closure which returns the `UIAlertAction`s
+
+     - returns: An `UIAlertController`
+
+     */
+    class func alert(
+        _ name: String,
+        message: String? = nil,
+        actionHandler: (() -> [UIAlertAction])
+        ) -> UIAlertController {
+
+        return UIAlertController.alert(name, message: message, actions: actionHandler())
+
+    }
+
+    /**
+     Create an actionSheet style `UIAlertController`
+
+     - parameter name: Title for the `UIAlertController`
+     - parameter message: Message to display (default: `nil`)
+     - parameter actions: Array with the `UIAlertAction`s (default: `nil`)
+
+     - returns `UIAlertController`
+     */
+    class func sheet(
+        _ name: String,
+        message: String? = nil,
+        actions: [UIAlertAction]? = nil
+        ) -> UIAlertController {
+
+        let alertController =  UIAlertController(title: name, message: message, preferredStyle: .actionSheet)
+
+        actions?.forEach(alertController.addAction)
+
+        return alertController
+
+    }
+
+    /**
+     Create an actionSheet style `UIAlertController`
+
+     - parameter name: Title for the `UIAlertController`
+     - parameter message: Message to display (default: `nil`)
+     - parameter actionHandler: Closure which returns the `UIAlertAction`s
+
+     - returns `UIAlertController`
+     */
+    class func sheet(
+        _ name: String,
+        message: String? = nil,
+        actionHandler: (() -> [UIAlertAction])
+        ) -> UIAlertController {
+
+        return UIAlertController.sheet(name, message: message, actions: actionHandler())
+
+    }
+
+    /**
+     Adds an action to an `UIAlertController` and is chainable
 
      - parameter title: Title for the action
      - parameter style: Style of the action (default: `.default`)
@@ -159,7 +219,7 @@ extension UIAlertController {
      */
     func addOk(handler: ((UIAlertAction) -> Void)? = nil) {
 
-        addAction(title: "OK", style: .default, handler: handler)
+        addAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: handler)
 
     }
 
@@ -189,10 +249,11 @@ extension UIAlertAction {
      - parameter title: The text to use for the button title.
      The value you specify should be localized for the user’s current language.
      This parameter must not be nil, except in a tvOS app
-     where a nil title may be used with cancel.
+     where a nil title may be used with cancel. (default: `nil`)
 
      - parameter handler: A block to execute when the user selects the action.
      This block has no return value and takes the selected action object as its only parameter.
+     (default: `nil`)
 
      */
     convenience init(
@@ -214,12 +275,14 @@ extension UIAlertAction {
      - parameter style: Additional styling information to apply to the button.
      Use the style information to convey the type of action that is performed by the button.
      For a list of possible values, see the constants in UIAlertActionStyle.
+     (default: `.default`)
      - parameter handler: A block to execute when the user selects the action.
      This block has no return value and takes the selected action object as its only parameter.
+     (default: `nil`)
 
      - returns: Array with the `UIAlertAction`s
      */
-    func append(
+    func appending(
         title: String,
         style: UIAlertActionStyle = .default,
         handler: ((UIAlertAction) -> Void)? = nil
@@ -242,12 +305,14 @@ extension Collection where Iterator.Element == UIAlertAction {
      - parameter style: Additional styling information to apply to the button.
      Use the style information to convey the type of action that is performed by the button.
      For a list of possible values, see the constants in UIAlertActionStyle.
+     (default: `.default`)
      - parameter handler: A block to execute when the user selects the action.
      This block has no return value and takes the selected action object as its only parameter.
-
+     (default: `nil`)
+     
      - returns: Array with the `UIAlertAction`s
      */
-    func append(
+    func appending(
         title: String,
         style: UIAlertActionStyle = .default,
         handler: ((UIAlertAction) -> Void)? = nil
