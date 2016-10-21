@@ -7,6 +7,10 @@ Nice and easy UIAlertController extensions
 - Chainable alert controller setup
 - Chainable alert actions
 
+Installation
+============
+Just drop the SwiftAlertController.swift file into your project
+
 Usage
 =====
 
