@@ -1,5 +1,5 @@
 //
-//  UIAlertExtensions.swift
+// SwiftAlertController.swift
 // Copyright (c) 2016, zahlz
 // All rights reserved.
 //
